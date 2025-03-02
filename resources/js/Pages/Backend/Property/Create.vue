@@ -28,6 +28,7 @@ import {useForm} from "@inertiajs/vue3";
 import {useStore} from "vuex";
 
 const props = defineProps(["property", "categories", "errors", "routePrefix"]);
+
 const values = reactive({
     name: null,
     summary: null,
@@ -35,6 +36,7 @@ const values = reactive({
     cover_alt: null,
     cover_title: null
 });
+
 const selectedLocale = ref();
 const store = useStore();
 const form = useForm({
@@ -65,7 +67,6 @@ const categorySlug = computed(() => {
 });
 </script>
 <template>
-    {{ categorySlug }}
     <!--Title-->
     <div class="flex justify-between my-0 items-center h-14 rounded-lg overflow-hidden mt-4">
         <span class="dark:text-light font-medium text-xl">{{ __("create_title") }}</span>
@@ -122,7 +123,6 @@ const categorySlug = computed(() => {
                             <Ckeditor v-model="form"
                                       :errors="errors"
                                       :label="__('data_sheet')"
-                                      debug
                                       name="data_sheet"
                                       required
                                       translation></Ckeditor>
@@ -198,7 +198,7 @@ const categorySlug = computed(() => {
                             <InputImage v-model="form.cover"
                                         v-model:alt_name="values.cover_alt"
                                         v-model:title="values.cover_title"
-                                        v-model:url="values.cover"
+                                        v-model:file_name="values.cover"
                                         :errors="errors"
                                         :label="__('cover_image')"
                                         name="cover"/>
@@ -222,7 +222,6 @@ const categorySlug = computed(() => {
                 </div>
             </div>
         </div>
-        {{ values.name }}
         <!-- seo -->
         <div class="my-8">
             <h2 class="font mb-4">{{ __("seo") }}</h2>

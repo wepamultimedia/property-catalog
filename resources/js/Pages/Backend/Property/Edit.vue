@@ -33,23 +33,28 @@ import {useStore} from "vuex";
 
 const props = defineProps(["property", "categories", "images", "files", "prices", "errors", "routePrefix"]);
 
-const values = reactive({
-    name: null,
-    summary: null,
-    cover: null,
-    cover_alt: null,
-    cover_title: null
-});
+
 const selectedLocale = ref();
 const store = useStore();
 const form = useForm({
+    cover: null,
+    cover_alt:null,
+    cover_title: null,
     ...props.property.data
+});
+
+const values = reactive({
+    name: null,
+    summary: null,
+    cover: form.cover,
+    cover_alt: form.cover_alt,
+    cover_title: form.cover_title
 });
 
 const propertyFiles = reactive({
     flap: false,
     add: file => {
-        propertyFiles.form.file_url = file.url;
+        propertyFiles.form.file_url = file.file;
         propertyFiles.form.name = file.name;
         propertyFiles.form.property_id = form.id;
         propertyFiles.form.post(route("admin.property_catalog.files.store"), {
@@ -85,7 +90,7 @@ const propertyFiles = reactive({
 const propertyImages = reactive({
     flap: false,
     add: image => {
-        propertyImages.form.image_url = image.url;
+        propertyImages.form.image_url = image.file;
         propertyImages.form.image_alt = image.alt_name;
         propertyImages.form.property_id = form.id;
         propertyImages.form.post(route("admin.property_catalog.images.store"), {
@@ -342,7 +347,7 @@ const categorySlug = computed(() => {
                             <InputImage v-model="form.cover"
                                         v-model:alt_name="values.cover_alt"
                                         v-model:title="values.cover_title"
-                                        v-model:url="values.cover"
+                                        v-model:file_name="values.cover"
                                         :errors="errors"
                                         :label="__('cover_image')"
                                         name="cover"/>
@@ -384,6 +389,7 @@ const categorySlug = computed(() => {
                     shadow">
             <Table :columns="['name', 'price', 'position']"
                    :data="prices.data"
+                   :key="prices.data.length"
                    :delete-message="__('delete_price_message')"
                    :delete-title="__('delete_price_title')"
                    delete-route="admin.property_catalog.prices.destroy"
@@ -441,6 +447,7 @@ const categorySlug = computed(() => {
                     rounded-lg
                     shadow">
             <Table :columns="['name']"
+                   :key="files.data.length"
                    :data="files"
                    :delete-message="__('delete_file_message')"
                    :delete-title="__('delete_file_title')"
@@ -470,6 +477,7 @@ const categorySlug = computed(() => {
                     shadow">
             <Table :columns="['image_url', 'image_alt', 'position']"
                    :data="images"
+                   :key="images.data.length"
                    :delete-message="__('delete_image_message')"
                    :delete-title="__('delete_image_title')"
                    delete-route="admin.property_catalog.images.destroy"
@@ -479,7 +487,7 @@ const categorySlug = computed(() => {
                 <template #col-content-image_url="{item}">
                     <figure>
                         <img :alt="item.image_alt"
-                             :src="item.image_url"
+                             :src="$page.props.default.fileManagerUrl + '/' + item.image_url"
                              class="w-20 h-20 object-cover aspect-square">
                     </figure>
                 </template>
@@ -598,7 +606,7 @@ const categorySlug = computed(() => {
         <form class="pb-8"
               @submit.prevent="propertyImages.update">
             <figure>
-                <img :src="propertyImages.form.image_url"
+                <img :src="$page.props.default.fileManagerUrl + '/' + propertyImages.form.image_url"
                      alt=""
                      class="w-full">
             </figure>

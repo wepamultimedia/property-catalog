@@ -34,11 +34,17 @@ class PropertyController extends InertiaController
         $properties = PropertyResource::collection($properties);
         $category = null;
 
+        $typeId = request('type_id');
+
         if ($request->exists('category_id')) {
             $category = CategoryResource::make(Category::find($request->category_id));
+            $typeId = $category->type_id;
         }
 
         $categories = CategoryResource::collection(Category::orderBy('position')
+            ->when($typeId, function ($query, $type_id) {
+                $query->whereTypeId($type_id);
+            })
             ->where('published', true)
             ->get());
 
