@@ -103,6 +103,10 @@ class Property extends Model
         'position' => 'integer',
         'category_id' => 'integer',
         'published' => 'boolean',
+        'new' => 'boolean',
+        'latest' => 'boolean',
+        'airbnb' => 'boolean',
+        'sold' => 'boolean',
     ];
 
     protected $table = 'procat_properties';
