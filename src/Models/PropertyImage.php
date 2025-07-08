@@ -63,6 +63,11 @@ class PropertyImage extends Model
         'position',
     ];
 
+    protected $casts = [
+        'property_id' => 'integer',
+        'position' => 'integer',
+    ];
+
     protected static function newFactory(): PropertyImageFactory
     {
         return PropertyImageFactory::new();

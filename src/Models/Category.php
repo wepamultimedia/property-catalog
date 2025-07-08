@@ -74,6 +74,13 @@ class Category extends Model
         'published',
     ];
 
+    protected $casts = [
+        'seo_id' => 'integer',
+        'type_id' => 'integer',
+        'position' => 'integer',
+        'published' => 'boolean',
+    ];
+
     protected $table = 'procat_categories';
 
     protected static function newFactory(): CategoryFactory

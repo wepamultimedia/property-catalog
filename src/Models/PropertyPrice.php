@@ -61,6 +61,11 @@ class PropertyPrice extends Model
         'position',
     ];
 
+    protected $casts = [
+        'property_id' => 'integer',
+        'position' => 'integer',
+    ];
+
     public function property(): BelongsTo
     {
         return $this->belongsTo(Property::class, 'id', 'property_id');

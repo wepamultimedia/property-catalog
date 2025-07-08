@@ -98,6 +98,13 @@ class Property extends Model
         'google_earth',
     ];
 
+    protected $casts = [
+        'seo_id' => 'integer',
+        'position' => 'integer',
+        'category_id' => 'integer',
+        'published' => 'boolean',
+    ];
+
     protected $table = 'procat_properties';
 
     public function category(): BelongsTo
