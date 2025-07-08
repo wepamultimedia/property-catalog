@@ -75,6 +75,7 @@ class Category extends Model
     ];
 
     protected $casts = [
+        'id' => 'integer',
         'seo_id' => 'integer',
         'type_id' => 'integer',
         'position' => 'integer',

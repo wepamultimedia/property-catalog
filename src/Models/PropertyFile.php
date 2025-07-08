@@ -62,6 +62,7 @@ class PropertyFile extends Model
     ];
 
     protected $casts = [
+        'id' => 'integer',
         'property_id' => 'integer',
         'position' => 'integer',
     ];

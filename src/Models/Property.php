@@ -99,6 +99,7 @@ class Property extends Model
     ];
 
     protected $casts = [
+        'id' => 'integer',
         'seo_id' => 'integer',
         'position' => 'integer',
         'category_id' => 'integer',
